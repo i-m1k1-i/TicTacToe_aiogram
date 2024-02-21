@@ -1,0 +1,1 @@
+from . import info_handlers, game_handlers  # noqa

@@ -4,7 +4,7 @@ import asyncio
 from aiogram import Bot, Dispatcher
 from aiogram.fsm.storage.memory import MemoryStorage
 
-from Handlers.info_handlers import router
+import Handlers as H
 from Config.config import load_config
 
 
@@ -19,7 +19,8 @@ async def main():
 
     bot = Bot(token=config.bot.token)
     dp = Dispatcher(storage=storage)
-    dp.include_routers(router)
+    dp.include_routers(H.info_handlers.router,
+                       H.game_handlers.router)
 
     await bot.delete_webhook(drop_pending_updates=True)
     await dp.start_polling(bot)

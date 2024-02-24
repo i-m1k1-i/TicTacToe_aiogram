@@ -4,7 +4,7 @@ from dataclasses import dataclass
 @dataclass
 class User:
     id: int
-    username: str
+    username: str | None
     desk: list[list[int]] | None = None
     opponent: int | None = None  # opponent's id
 

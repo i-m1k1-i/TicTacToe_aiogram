@@ -17,7 +17,7 @@ async def main():
     config = load_config()
     storage = MemoryStorage()
 
-    bot = Bot(token=config.bot.token)
+    bot = Bot(token=config.bot.token, parse_mode="HTML")
     dp = Dispatcher(storage=storage)
     dp.include_routers(H.info_handlers.router,
                        H.game_handlers.router)

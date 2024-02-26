@@ -18,8 +18,8 @@ def getKb_mainMenu():
 
 
 def getKb_3x3(user_desk_data: list):
-    btns = [InlineKeyboardButton(text=EMOJIS[data], callback_data=str(data))
-            for data in user_desk_data]
+    btns = [InlineKeyboardButton(text=EMOJIS[desk_data], callback_data=str(desk_pos))
+            for desk_data, desk_pos in zip(user_desk_data, range(9))]
     builder = InlineKeyboardBuilder()
     builder.row(*btns, width=3)
     return builder.as_markup()

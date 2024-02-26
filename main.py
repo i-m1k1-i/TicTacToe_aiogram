@@ -8,7 +8,7 @@ import Handlers as H
 from Config.config import load_config
 
 
-format = "%(levelname)s [%(filename)s/%(name)s: %(lineno)d]: |%(message)s|"
+format = "%(levelname)s [%(name)s/%(funcName)s: %(lineno)d]: |%(message)s|"
 
 
 async def main():

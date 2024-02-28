@@ -1,9 +1,9 @@
 FREE = 0
 X, O = 1, 2
 EMOJIS = {
-    0: '_',
-    1: '❌',
-    2: '⭕'
+    FREE: '_',
+    X: '❌',
+    O: '⭕'
 }
 
 WIN_COMBINATIONS = [[0, 1, 2],

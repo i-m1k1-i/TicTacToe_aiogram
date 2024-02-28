@@ -18,14 +18,13 @@ What should be in user database:
 class User:
     id: int
     username: str | None
+    move: int | None = None  # 1 my move, 0 not
+    shape: int | None = None  # 1 - X, 2 - O
     desk: list[int] | None = None
     opponent: int | None = None  # opponent's id
-    move: int  # 1 my move, 0 not
-    shape: int  # 1 - X, 2 - O
 
     def create_desk(self):
         self.desk = [FREE for _ in range(9)]
-        users[self.id] = self
 
 
 users: dict[int, User] = {}

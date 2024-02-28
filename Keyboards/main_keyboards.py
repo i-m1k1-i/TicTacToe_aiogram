@@ -1,12 +1,13 @@
-from aiogram.types import InlineKeyboardButton
+import logging
+import re
+from aiogram.types import InlineKeyboardButton, InlineKeyboardMarkup
 from aiogram.utils.keyboard import InlineKeyboardBuilder
 
-from constants import EMOJIS
+from constants import EMOJIS, FREE
 from Lexicon.lexicon import menu
 
-"""user_desk_data = [1, 2, 0,
-                     2, 1, 0,
-                     2, 1, 0]"""
+
+logger = logging.getLogger(__name__)
 
 
 def getKb_mainMenu():
@@ -17,9 +18,20 @@ def getKb_mainMenu():
     return builder.as_markup()
 
 
-def getKb_3x3(user_desk_data: list):
-    btns = [InlineKeyboardButton(text=EMOJIS[desk_data], callback_data=str(desk_pos))
-            for desk_data, desk_pos in zip(user_desk_data, range(9))]
+def getKb_3x3(user_desk_data: list, shape: int = FREE):
+    while re.VERBOSE in user_desk_data:
+        i = user_desk_data.index(re.VERBOSE)
+        user_desk_data[i] = shape
+
+    btns = [InlineKeyboardButton(text=EMOJIS[cell_data], callback_data="move_" + str(cell_pos))
+            for cell_pos, cell_data in enumerate(user_desk_data)]
+
     builder = InlineKeyboardBuilder()
     builder.row(*btns, width=3)
     return builder.as_markup()
+
+
+def getKb_cancel_searching():
+    return InlineKeyboardMarkup(
+        inline_keyboard=[[InlineKeyboardButton(text="Отменить",
+                                               callback_data="cancel_searching")]])

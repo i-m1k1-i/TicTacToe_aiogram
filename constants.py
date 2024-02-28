@@ -1,7 +1,10 @@
 FREE = 0
 X, O = 1, 2
-EMOJIS = {X: '❌',
-          O: '⭕'}
+EMOJIS = {
+    0: '_',
+    1: '❌',
+    2: '⭕'
+}
 
 WIN_COMBINATIONS = [[0, 1, 2],
                     [3, 4, 5],

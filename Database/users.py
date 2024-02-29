@@ -22,6 +22,11 @@ class User:
     shape: int | None = None  # 1 - X, 2 - O
     desk: list[int] | None = None
     opponent: int | None = None  # opponent's id
+    games: int = 0
+    wins: int = 0
+
+    def get_win_rate(self):
+        return (self.wins * 100) / self.games
 
     def create_desk(self):
         self.desk = [FREE for _ in range(9)]

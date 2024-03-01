@@ -1,5 +1,4 @@
 import logging
-import re
 from aiogram.types import InlineKeyboardButton, InlineKeyboardMarkup
 from aiogram.utils.keyboard import InlineKeyboardBuilder
 
@@ -19,10 +18,6 @@ def getKb_mainMenu():
 
 
 def getKb_3x3(user_desk_data: list, shape: int = FREE):
-    while re.VERBOSE in user_desk_data:
-        i = user_desk_data.index(re.VERBOSE)
-        user_desk_data[i] = shape
-
     btns = [InlineKeyboardButton(text=EMOJIS[cell_data], callback_data="move_" + str(cell_pos))
             for cell_pos, cell_data in enumerate(user_desk_data)]
 

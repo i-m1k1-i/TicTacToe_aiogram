@@ -9,9 +9,10 @@ from Keyboards.main_keyboards import getKb_3x3, getKb_cancel_searching, getKb_ma
 from Lexicon.lexicon import lexicon_ru
 from Database.users import users, waiting_users
 from FSM.state_groups import FSMGame
-from constants import FREE, X, O
-from Utils.utils import (does_win, get_deskMessageId, pair_users,
-                         get_user_state, send_winner_messages, update_desk)
+from constants import FREE
+from Utils.preGame_utils import prepare_for_game, pair_users
+from Utils.inGame_utils import does_win, update_desk, send_winner_messages, send_tie_messages
+from Utils.getInfo_utils import get_deskMessageId, get_user_state
 
 
 logger = logging.getLogger(__name__)
@@ -24,12 +25,7 @@ async def connect_players(callback: CallbackQuery, bot: Bot,
     if waiting_users:
         user1, user2 = pair_users(callback.from_user.id,
                                   waiting_users[0])
-        user1.create_desk()
-        user2.create_desk()
-        user1.shape = X
-        user2.shape = O
-        user1.move = True
-        user2.move = False
+        prepare_for_game(user1, user2)
 
         user2_state = get_user_state(bot.id, user2.id, dispatcher)
         user2_stateData = await user2_state.get_data()
@@ -73,15 +69,23 @@ async def make_move(callback: CallbackQuery, bot: Bot, dispatcher: Dispatcher):
     if user1.desk[move_pos] == FREE:
         user1.desk[move_pos] = user1.shape
         user2.desk[move_pos] = user1.shape
-        await update_desk(callback, bot, user2.id, user2_deskMessageId, user1.desk, user1.shape)
+        await update_desk(callback,
+                          bot, user2.id, user2_deskMessageId,
+                          user1.desk, user1.shape)
         await callback.answer()
     else:
         await callback.answer("This cell is occupied")
 
     winner = does_win(user1, user2, user1.desk)
-    if winner:
+    if winner == 'T':
+        logger.info("In T")
+        await send_tie_messages(user1, user2, bot,
+                                callback.message.message_id, user2_deskMessageId)
+    elif winner:
+        logger.info("In winner")
         await send_winner_messages(user1, user2, winner, bot,
                                    callback.message.message_id, user2_deskMessageId)
+        winner.wins += 1
 
     user1.move, user2.move = user2.move, user1.move
 

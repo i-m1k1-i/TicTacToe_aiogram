@@ -21,8 +21,7 @@ async def start(message: Message):
 
 @router.callback_query(F.data == "profile")
 async def send_profile(callback: CallbackQuery):
-    username = callback.from_user.username
-    user_id = callback.from_user.id
+    user = users[callback.from_user.id]
 
-    await callback.message.edit_text(lexicon_ru.get_user_profile(username, user_id),
+    await callback.message.edit_text(lexicon_ru.get_user_profile(user),
                                      reply_markup=getKb_mainMenu())

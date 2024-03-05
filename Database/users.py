@@ -26,7 +26,7 @@ class User:
     wins: int = 0
 
     def get_win_rate(self):
-        return (self.wins * 100) / self.games
+        return 0 if self.wins == 0 else (self.wins * 100) / self.games
 
     def create_desk(self):
         self.desk = [FREE for _ in range(9)]

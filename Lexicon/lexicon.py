@@ -22,4 +22,4 @@ class Lexicon:
 lexicon_ru = Lexicon()
 
 
-menu = (("Играть в ХО", "playXO"), ("Профиль", "profile"))
+menu = [("Играть в ХО", "playXO"), ("Профиль", "profile")]

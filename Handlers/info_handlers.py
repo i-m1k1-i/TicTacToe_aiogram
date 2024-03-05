@@ -4,7 +4,7 @@ from aiogram.filters import CommandStart
 
 from Lexicon.lexicon import lexicon_ru
 from Database.users import users, User
-from Keyboards.main_keyboards import getKb_mainMenu
+from Keyboards.main_keyboards import getKb_mainMenu, getKb_profile
 
 router = Router()
 
@@ -24,4 +24,4 @@ async def send_profile(callback: CallbackQuery):
     user = users[callback.from_user.id]
 
     await callback.message.edit_text(lexicon_ru.get_user_profile(user),
-                                     reply_markup=getKb_mainMenu())
+                                     reply_markup=getKb_profile())

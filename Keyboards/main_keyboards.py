@@ -28,9 +28,10 @@ def getKb_profile():
 def getKb_3x3(user_desk_data: list, shape: int = FREE):
     btns = [InlineKeyboardButton(text=EMOJIS[cell_data], callback_data="move_" + str(cell_pos))
             for cell_pos, cell_data in enumerate(user_desk_data)]
-
+    giveUp_btn = InlineKeyboardButton(text="Сдаться", callback_data="giveUp")
     builder = InlineKeyboardBuilder()
     builder.row(*btns, width=3)
+    builder.row(giveUp_btn)
     return builder.as_markup()
 
 

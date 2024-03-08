@@ -93,3 +93,14 @@ async def make_move(callback: CallbackQuery, bot: Bot, dispatcher: Dispatcher):
 @router.callback_query(F.data.startswith("move"))
 async def make_move_notOnHisMove(callback: CallbackQuery):
     await callback.answer("Сейчас не твой ход")
+
+
+@router.callback_query(F.data == "giveUp")
+async def giveUp(callback: CallbackQuery, bot: Bot, dispatcher: Dispatcher):
+    user1 = users[callback.from_user.id]  # he gived up
+    user2 = users[user1.opponent]
+    user2_deskMessageId = await get_deskMessageId(bot, dispatcher, user2.id)
+
+    user2.wins += 1
+    await send_winner_messages(user1, user2, user2, bot,
+                               callback.message.message_id, user2_deskMessageId)
